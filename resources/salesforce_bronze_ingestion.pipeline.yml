@@ -1,0 +1,41 @@
+resources:
+  pipelines:
+    pipeline_salesforce_bronze_ingestion:
+      name: ${var.pipeline_name}
+      ingestion_definition:
+        connection_name: ${var.connection_name}
+        objects:
+          - table:
+              source_schema: objects
+              source_table: Account
+              destination_catalog: ${var.catalog}
+              destination_schema: ${var.schema}
+          - table:
+              source_schema: objects
+              source_table: Contact
+              destination_catalog: ${var.catalog}
+              destination_schema: ${var.schema}
+          - table:
+              source_schema: objects
+              source_table: Lead
+              destination_catalog: ${var.catalog}
+              destination_schema: ${var.schema}
+          - table:
+              source_schema: objects
+              source_table: Opportunity
+              destination_catalog: ${var.catalog}
+              destination_schema: ${var.schema}
+          - table:
+              source_schema: objects
+              source_table: Case
+              destination_catalog: ${var.catalog}
+              destination_schema: ${var.schema}
+          - table:
+              source_schema: objects
+              source_table: Task
+              destination_catalog: ${var.catalog}
+              destination_schema: ${var.schema}
+        source_type: SALESFORCE
+      schema: ${var.schema}
+      channel: CURRENT
+      catalog: ${var.catalog}

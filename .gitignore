@@ -1,0 +1,12 @@
+# Databricks bundle state
+.bundle/
+
+# Databricks CLI
+.databricks/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
