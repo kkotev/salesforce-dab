@@ -4,6 +4,10 @@ bundle:
 include:
   - resources/*.yml
 
+permissions:                          
+  - user_name: kkotev@deloittece.com 
+    level: CAN_MANAGE 
+
 variables:
   pipeline_name:
     default: salesforce_bronze_ingestion
@@ -26,6 +30,8 @@ targets:
     variables:
       catalog: bronze_salesforce_staging
       schema: raw_salesforce_staging
+    workspace:
+      root_path: /Workspace/Users/kkotev@deloittece.com/.bundle/salesforce-dab/staging
 
   prod:
     mode: production

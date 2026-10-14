@@ -1,0 +1,64 @@
+name: Deploy Salesforce DAB
+
+on:
+  # Validate on pull requests to main
+  pull_request:
+    branches: [main]
+  # Deploy to prod on merge to main
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  # ── Validate on PR ──────────────────────────────────────────────
+  validate:
+    name: Validate Bundle
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    env:
+      # Option A: Workload identity federation (recommended for prod)
+      # Requires a Databricks service principal with a GitHub OIDC policy
+      DATABRICKS_AUTH_TYPE: github-oidc
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+      # Option B: Personal access token (simpler, less secure)
+      # DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      # DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate bundle (dev target)
+        run: databricks bundle validate --strict --target dev
+
+      - name: Validate bundle (prod target)
+        run: databricks bundle validate --target prod
+
+  # ── Deploy on merge to main ────────────────────────────────────
+  deploy:
+    name: Deploy to Production
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: prod
+    env:
+      DATABRICKS_AUTH_TYPE: github-oidc
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate bundle
+        run: databricks bundle validate --target prod
+
+      - name: Deploy bundle
+        run: databricks bundle deploy --target prod
