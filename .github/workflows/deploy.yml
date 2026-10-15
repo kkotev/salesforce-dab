@@ -9,7 +9,6 @@ on:
     branches: [main]
 
 permissions:
-  id-token: write
   contents: read
 
 jobs:
@@ -19,14 +18,10 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     env:
-      # Option A: Workload identity federation (recommended for prod)
-      # Requires a Databricks service principal with a GitHub OIDC policy
-      DATABRICKS_AUTH_TYPE: github-oidc
+      DATABRICKS_AUTH_TYPE: oauth-m2m
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
       DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
-      # Option B: Personal access token (simpler, less secure)
-      # DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-      # DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -47,9 +42,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: prod
     env:
-      DATABRICKS_AUTH_TYPE: github-oidc
+      DATABRICKS_AUTH_TYPE: oauth-m2m
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
       DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+      DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

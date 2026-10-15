@@ -4,10 +4,6 @@ bundle:
 include:
   - resources/*.yml
 
-permissions:                          
-  - user_name: kkotev@deloittece.com 
-    level: CAN_MANAGE 
-
 variables:
   pipeline_name:
     default: salesforce_bronze_ingestion
@@ -16,7 +12,7 @@ variables:
   schema:
     default: raw_salesforce
   connection_name:
-    default: salesforce_ingestion
+    default: salesforce_connection
 
 targets:
   dev:
@@ -31,7 +27,7 @@ targets:
       catalog: bronze_salesforce_staging
       schema: raw_salesforce_staging
     workspace:
-      root_path: /Workspace/Users/kkotev@deloittece.com/.bundle/salesforce-dab/staging
+      root_path: /Workspace/Users/kotevkostadin97@gmail.com/.bundle/salesforce-dab/staging
 
   prod:
     mode: production
@@ -39,7 +35,7 @@ targets:
       catalog: bronze_salesforce
       schema: raw_salesforce
     workspace:
-      root_path: /Workspace/Users/kkotev@deloittece.com/.bundle/salesforce-dab/prod
+      root_path: /Workspace/Users/kotevkostadin97@gmail.com/.bundle/salesforce-dab/prod
     permissions:
       - user_name: data_engineering@company.com
         level: CAN_MANAGE
