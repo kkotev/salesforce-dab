@@ -37,7 +37,7 @@ targets:
     workspace:
       root_path: /Workspace/Shared/.bundle/salesforce-dab/prod
     permissions:
-      - service_principal_name: salesforce-dab-cicd
+      - service_principal_name: 758d0780-b2fb-45aa-9ad4-970acb629314
         level: CAN_MANAGE
       - user_name: data_engineering@company.com
         level: CAN_MANAGE
