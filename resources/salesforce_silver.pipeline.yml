@@ -7,4 +7,14 @@ resources:
       channel: CURRENT
       libraries:
         - file:
-            path: ../src/silver/
+            path: ../src/silver/silver_accounts.py
+        - file:
+            path: ../src/silver/silver_contacts.py
+        - file:
+            path: ../src/silver/silver_leads.py
+        - file:
+            path: ../src/silver/silver_opportunities.py
+        - file:
+            path: ../src/silver/silver_cases.py
+        - file:
+            path: ../src/silver/silver_tasks.py
