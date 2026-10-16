@@ -5,6 +5,7 @@ resources:
       catalog: ${var.silver_catalog}
       schema: ${var.silver_schema}
       channel: CURRENT
+      serverless: true
       libraries:
         - file:
             path: ../src/silver/silver_accounts.py
