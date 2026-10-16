@@ -1,0 +1,10 @@
+resources:
+  pipelines:
+    pipeline_salesforce_silver:
+      name: ${var.silver_pipeline_name}
+      catalog: ${var.silver_catalog}
+      schema: ${var.silver_schema}
+      channel: CURRENT
+      libraries:
+        - file:
+            path: ../src/silver/
