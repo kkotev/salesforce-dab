@@ -1,7 +1,7 @@
 resources:
   pipelines:
     pipeline_salesforce_bronze_ingestion:
-      name: ${var.pipeline_name}
+      name: ${var.pipeline_name}_${bundle.target}
       ingestion_definition:
         connection_name: ${var.connection_name}
         objects:
