@@ -8,6 +8,10 @@ from pyspark.sql import functions as F
     table_properties={"quality": "silver"},
 )
 @dp.expect_or_drop("valid_id", "Id IS NOT NULL")
+@dp.expect_all({
+    "status_not_null": "status IS NOT NULL",
+    "created_date_not_in_future": "created_date IS NULL OR created_date <= current_timestamp()",
+})
 def silver_tasks():
     return (
         spark.readStream.table("bronze_salesforce.raw_salesforce.task")

@@ -9,6 +9,11 @@ from pyspark.sql import functions as F
 )
 @dp.expect_or_drop("valid_id", "Id IS NOT NULL")
 @dp.expect("valid_subject", "Subject IS NOT NULL")
+@dp.expect_all({
+    "valid_account_id": "account_id IS NOT NULL AND length(account_id) IN (15, 18)",
+    "status_not_null": "status IS NOT NULL",
+    "created_date_not_in_future": "created_date IS NULL OR created_date <= current_timestamp()",
+})
 def silver_cases():
     return (
         spark.readStream.table("bronze_salesforce.raw_salesforce.case")
