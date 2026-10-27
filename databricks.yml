@@ -7,51 +7,40 @@ include:
 variables:
   pipeline_name:
     default: salesforce_bronze_ingestion
+  # One catalog per environment; one schema per medallion layer
   catalog:
-    default: bronze_salesforce
-  schema:
-    default: raw_salesforce
+    description: Environment catalog (salesforce_dev / salesforce_staging / salesforce_prod)
+  bronze_schema:
+    default: bronze
+  silver_schema:
+    default: silver
+  gold_schema:
+    default: gold
   connection_name:
     default: salesforce_connection
   silver_pipeline_name:
     default: salesforce_silver_transformations
-  silver_catalog:
-    default: silver_salesforce
-  silver_schema:
-    default: cleaned_salesforce
-  gold_catalog:
-    default: gold_salesforce
-  gold_schema:
-    default: curated_salesforce
 
 targets:
   dev:
     mode: development
     variables:
-      catalog: bronze_salesforce_dev
-      schema: raw_salesforce_dev
-      silver_catalog: silver_salesforce_dev
-      silver_schema: cleaned_salesforce_dev
-      gold_catalog: gold_salesforce_dev
-      gold_schema: curated_salesforce_dev
+      catalog: salesforce_dev
 
   staging:
     mode: production
     variables:
-      catalog: bronze_salesforce_staging
-      schema: raw_salesforce_staging
-      silver_catalog: silver_salesforce_staging
-      silver_schema: cleaned_salesforce_staging
-      gold_catalog: gold_salesforce_staging
-      gold_schema: curated_salesforce_staging
+      catalog: salesforce_staging
     workspace:
       root_path: /Workspace/Shared/.bundle/salesforce-dab/staging
+    # Staging runs only when CI triggers it (integration test), not on the daily schedule
+    presets:
+      trigger_pause_status: PAUSED
 
   prod:
     mode: production
     variables:
-      catalog: bronze_salesforce
-      schema: raw_salesforce
+      catalog: salesforce_prod
     workspace:
       root_path: /Workspace/Shared/.bundle/salesforce-dab/prod
     permissions:

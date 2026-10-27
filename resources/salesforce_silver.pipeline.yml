@@ -2,12 +2,14 @@ resources:
   pipelines:
     pipeline_salesforce_silver:
       name: ${var.silver_pipeline_name}
-      catalog: ${var.silver_catalog}
+      catalog: ${var.catalog}
       schema: ${var.silver_schema}
       channel: CURRENT
       serverless: true
       configuration:
-        gold_catalog: ${var.gold_catalog}
+        bronze_catalog: ${var.catalog}
+        bronze_schema: ${var.bronze_schema}
+        gold_catalog: ${var.catalog}
         gold_schema: ${var.gold_schema}
       libraries:
         - file:

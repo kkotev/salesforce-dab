@@ -1,6 +1,9 @@
 from pyspark import pipelines as dp
 from pyspark.sql import functions as F
 
+# Bronze catalog/schema come from the pipeline configuration (bundle variables catalog / bronze_schema)
+BRONZE = f"{spark.conf.get('bronze_catalog')}.{spark.conf.get('bronze_schema')}"
+
 
 @dp.table(
     name="silver_accounts",
@@ -14,7 +17,7 @@ from pyspark.sql import functions as F
 })
 def silver_accounts():
     return (
-        spark.readStream.table("bronze_salesforce.raw_salesforce.account")
+        spark.readStream.table(f"{BRONZE}.account")
         .filter(F.col("IsDeleted") == False)
         .select(
             F.col("Id"),

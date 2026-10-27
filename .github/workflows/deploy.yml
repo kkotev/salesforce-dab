@@ -32,13 +32,45 @@ jobs:
       - name: Validate bundle (dev target)
         run: databricks bundle validate --strict --target dev
 
+      - name: Validate bundle (staging target)
+        run: databricks bundle validate --target staging
+
       - name: Validate bundle (prod target)
         run: databricks bundle validate --target prod
 
-  # ── Deploy on merge to main ────────────────────────────────────
+  # ── Deploy + integration run in staging on merge to main ───────
+  deploy-staging:
+    name: Deploy to Staging
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: staging
+    env:
+      DATABRICKS_AUTH_TYPE: oauth-m2m
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+      DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate bundle
+        run: databricks bundle validate --target staging
+
+      - name: Deploy bundle
+        run: databricks bundle deploy --target staging
+
+      # End-to-end check: bronze ingestion -> silver + gold. Fails the workflow (and blocks prod) if any task fails.
+      - name: Run orchestration job (integration test)
+        run: databricks bundle run salesforce_orchestration --target staging
+
+  # ── Deploy to prod after staging succeeds ──────────────────────
   deploy:
     name: Deploy to Production
     if: github.event_name == 'push'
+    needs: deploy-staging
     runs-on: ubuntu-latest
     environment: prod
     env:
