@@ -1,7 +1,7 @@
 resources:
   pipelines:
     pipeline_salesforce_silver:
-      name: ${var.silver_pipeline_name}
+      name: ${var.silver_pipeline_name}_${bundle.target}
       catalog: ${var.catalog}
       schema: ${var.silver_schema}
       channel: CURRENT
