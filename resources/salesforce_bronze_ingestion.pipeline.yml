@@ -9,33 +9,33 @@ resources:
               source_schema: objects
               source_table: Account
               destination_catalog: ${var.catalog}
-              destination_schema: ${var.schema}
+              destination_schema: ${var.bronze_schema}
           - table:
               source_schema: objects
               source_table: Contact
               destination_catalog: ${var.catalog}
-              destination_schema: ${var.schema}
+              destination_schema: ${var.bronze_schema}
           - table:
               source_schema: objects
               source_table: Lead
               destination_catalog: ${var.catalog}
-              destination_schema: ${var.schema}
+              destination_schema: ${var.bronze_schema}
           - table:
               source_schema: objects
               source_table: Opportunity
               destination_catalog: ${var.catalog}
-              destination_schema: ${var.schema}
+              destination_schema: ${var.bronze_schema}
           - table:
               source_schema: objects
               source_table: Case
               destination_catalog: ${var.catalog}
-              destination_schema: ${var.schema}
+              destination_schema: ${var.bronze_schema}
           - table:
               source_schema: objects
               source_table: Task
               destination_catalog: ${var.catalog}
-              destination_schema: ${var.schema}
+              destination_schema: ${var.bronze_schema}
         source_type: SALESFORCE
-      schema: ${var.schema}
+      schema: ${var.bronze_schema}
       channel: CURRENT
       catalog: ${var.catalog}

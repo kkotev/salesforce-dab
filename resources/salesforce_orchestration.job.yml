@@ -4,11 +4,11 @@ resources:
       name: salesforce_orchestration
       description: Runs Salesforce bronze ingestion, then silver + gold transformations.
 
-      # Daily at 06:00 UTC. Development-mode targets (dev) deploy schedules paused automatically.
+      # Daily at 06:00 UTC. pause_status is intentionally omitted: prod defaults to UNPAUSED,
+      # dev (development mode) and staging (presets.trigger_pause_status) deploy it PAUSED.
       schedule:
         quartz_cron_expression: '0 0 6 * * ?'
         timezone_id: UTC
-        pause_status: UNPAUSED
 
       max_concurrent_runs: 1
       timeout_seconds: 7200
