@@ -19,6 +19,10 @@ variables:
     default: silver_salesforce
   silver_schema:
     default: cleaned_salesforce
+  gold_catalog:
+    default: gold_salesforce
+  gold_schema:
+    default: curated_salesforce
 
 targets:
   dev:
@@ -28,6 +32,8 @@ targets:
       schema: raw_salesforce_dev
       silver_catalog: silver_salesforce_dev
       silver_schema: cleaned_salesforce_dev
+      gold_catalog: gold_salesforce_dev
+      gold_schema: curated_salesforce_dev
 
   staging:
     mode: production
@@ -36,6 +42,8 @@ targets:
       schema: raw_salesforce_staging
       silver_catalog: silver_salesforce_staging
       silver_schema: cleaned_salesforce_staging
+      gold_catalog: gold_salesforce_staging
+      gold_schema: curated_salesforce_staging
     workspace:
       root_path: /Workspace/Shared/.bundle/salesforce-dab/staging
 

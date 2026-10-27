@@ -9,6 +9,13 @@ from pyspark.sql import functions as F
 )
 @dp.expect_or_drop("valid_id", "Id IS NOT NULL")
 @dp.expect_or_drop("valid_name", "Name IS NOT NULL")
+@dp.expect_all({
+    "valid_account_id": "account_id IS NOT NULL AND length(account_id) IN (15, 18)",
+    "non_negative_amount": "amount IS NULL OR amount >= 0",
+    "valid_probability": "probability IS NULL OR probability BETWEEN 0 AND 100",
+    "close_date_present": "close_date IS NOT NULL",
+    "created_date_not_in_future": "created_date IS NULL OR created_date <= current_timestamp()",
+})
 def silver_opportunities():
     return (
         spark.readStream.table("bronze_salesforce.raw_salesforce.opportunity")

@@ -6,6 +6,9 @@ resources:
       schema: ${var.silver_schema}
       channel: CURRENT
       serverless: true
+      configuration:
+        gold_catalog: ${var.gold_catalog}
+        gold_schema: ${var.gold_schema}
       libraries:
         - file:
             path: ../src/silver/silver_accounts.py
@@ -19,3 +22,19 @@ resources:
             path: ../src/silver/silver_cases.py
         - file:
             path: ../src/silver/silver_tasks.py
+        - file:
+            path: ../src/gold/dim_accounts.py
+        - file:
+            path: ../src/gold/dim_contacts.py
+        - file:
+            path: ../src/gold/dim_leads.py
+        - file:
+            path: ../src/gold/dim_date.py
+        - file:
+            path: ../src/gold/fact_opportunities.py
+        - file:
+            path: ../src/gold/fact_cases.py
+        - file:
+            path: ../src/gold/fact_tasks.py
+        - file:
+            path: ../src/gold/gold_fk_checks.py
