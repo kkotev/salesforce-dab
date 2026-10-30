@@ -43,6 +43,9 @@ targets:
       catalog: salesforce_prod
     workspace:
       root_path: /Workspace/Shared/.bundle/salesforce-dab/prod
+    # Prod schedule paused on 2026-10-30. Remove this preset (or set UNPAUSED) to resume the daily run
+    presets:
+      trigger_pause_status: PAUSED
     permissions:
       - service_principal_name: 758d0780-b2fb-45aa-9ad4-970acb629314
         level: CAN_MANAGE
